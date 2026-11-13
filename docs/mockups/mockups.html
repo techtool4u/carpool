@@ -1,0 +1,204 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Carpool Mockups</title>
+<style>
+:root{--g:#0f9d6b;--gd:#0b7a53;--gl:#e6f6ef;--ink:#16202a;--mut:#6b7783;--line:#e7ebef;--bg:#f5f7f9;--warn:#e5484d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:#dfe5ea;display:flex;flex-wrap:wrap;gap:40px;padding:40px;color:var(--ink)}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:44px;overflow:hidden;position:relative;border:10px solid #111;display:flex;flex-direction:column}
+.sb{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:600;flex:none}
+.content{flex:1;overflow:hidden;padding:0 18px}
+h1{font-size:26px;font-weight:700;letter-spacing:-.5px}
+h2{font-size:18px;font-weight:700}
+.mut{color:var(--mut);font-size:13px}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px}
+.row{display:flex;align-items:center;gap:10px}
+.sp{justify-content:space-between}
+.btn{background:var(--g);color:#fff;border-radius:14px;padding:15px;text-align:center;font-weight:600;font-size:16px}
+.btn.o{background:#fff;color:var(--g);border:1.5px solid var(--g)}
+.field{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.field:last-child{border:0}
+.dot{width:10px;height:10px;border-radius:50%;border:2.5px solid var(--g);flex:none}
+.dot.f{background:var(--ink);border-color:var(--ink);border-radius:2px}
+.chip{display:inline-block;white-space:nowrap;padding:6px 12px;border-radius:20px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:500}
+.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+.av{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--gl);color:var(--gd)}
+.price{font-size:20px;font-weight:700}
+.tab{height:78px;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:flex-start;padding-top:10px;flex:none}
+.tab div{display:flex;flex-direction:column;align-items:center;font-size:11px;color:var(--mut);gap:4px}
+.tab div.on{color:var(--g);font-weight:600}
+.ic{width:24px;height:24px}
+.tl{display:flex;flex-direction:column;align-items:center;gap:2px}
+.tl .ln{width:2px;height:22px;background:var(--line)}
+.map{background:#e8eef0;position:relative;overflow:hidden}
+.star{color:#f5a524}
+.sec{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 8px}
+.tog{width:44px;height:26px;border-radius:13px;background:var(--g);position:relative;flex:none}
+.tog:after{content:"";position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff}
+.tog.off{background:#cfd6dc}.tog.off:after{right:auto;left:3px}
+.day{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line)}
+.day.on{background:var(--g);color:#fff;border-color:var(--g)}
+</style></head><body>
+
+<!-- ICONS -->
+<svg width="0" height="0" style="position:absolute">
+ <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></symbol>
+ <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-5H7l-2 5z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+ <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+ <symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+ <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+</svg>
+
+<template id="tabbar"></template>
+
+<!-- 1 HOME -->
+<div class="phone" id="s1">
+ <div class="sb"><span>8:12</span><span>●●● 5G ▮</span></div>
+ <div class="content">
+  <div class="row sp" style="margin:6px 0 18px"><div><div class="mut">Good morning,</div><h1>Arjun 👋</h1></div><div class="av" style="background:#7c5cff">A</div></div>
+  <div class="card" style="padding:6px 16px">
+   <div class="field"><span class="dot"></span><span>Home · Indiranagar</span></div>
+   <div class="field"><span class="dot f"></span><span>Work · Manyata Tech Park</span><svg class="ic" style="margin-left:auto;color:var(--mut)"><use href="#i-swap"/></svg></div>
+   <div class="field"><span style="width:10px"></span><span>Tomorrow, 8:00 – 9:30 AM</span><span class="mut" style="margin-left:auto">1 seat</span></div>
+  </div>
+  <div class="btn" style="margin-bottom:14px">Find a ride</div>
+  <div class="row" style="gap:8px;margin-bottom:18px"><span class="chip on">Find</span><span class="chip">Offer a ride</span><span class="chip">My groups</span></div>
+  <div class="row sp"><h2>Your next ride</h2><span class="mut" style="color:var(--g);font-weight:600">See all</span></div>
+  <div class="card" style="margin-top:10px">
+   <div class="row sp"><span class="tag">TOMORROW · 8:30 AM</span><span class="tag" style="background:#eef0ff;color:#4b4bd6">Recurring Mon–Fri</span></div>
+   <div class="row" style="margin-top:12px"><div class="av" style="background:#e07a5f">P</div><div style="flex:1"><div style="font-weight:600">Priya S. <span class="star">★</span> 4.9</div><div class="mut">White Honda City · KA 03 MN 4521</div></div><svg class="ic" style="color:var(--g)"><use href="#i-chat"/></svg></div>
+   <div class="mut" style="margin-top:10px">Pickup: 100 Ft Rd Metro, 8:38 AM</div>
+  </div>
+  <div class="card row" style="background:var(--gl);box-shadow:none"><span style="font-size:26px">🌱</span><div><div style="font-weight:600">You saved 42 kg CO₂ this month</div><div class="mut">and ₹3,150 vs. driving alone</div></div></div>
+ </div>
+ <div class="tab"><div class="on"><svg class="ic"><use href="#i-home"/></svg>Home</div><div><svg class="ic"><use href="#i-car"/></svg>My rides</div><div><svg class="ic"><use href="#i-plus"/></svg>Offer</div><div><svg class="ic"><use href="#i-chat"/></svg>Inbox</div><div><svg class="ic"><use href="#i-user"/></svg>Profile</div></div>
+</div>
+
+<!-- 2 RESULTS -->
+<div class="phone" id="s2">
+ <div class="sb"><span>8:13</span><span>●●● 5G ▮</span></div>
+ <div class="content">
+  <div class="row" style="margin:4px 0 12px"><svg class="ic"><use href="#i-back"/></svg><div><div style="font-weight:700">Indiranagar → Manyata Tech Park</div><div class="mut">Tomorrow · 8:00–9:30 AM · 1 seat</div></div></div>
+  <div class="row" style="gap:8px;margin-bottom:14px;flex-wrap:nowrap"><span class="chip on">Earliest</span><span class="chip">Cheapest</span><span class="chip">Nearest</span><span class="chip">⚙ Filters</span></div>
+  <div class="mut" style="margin-bottom:8px">4 rides pass within 2 km of you</div>
+  <!-- cards -->
+  <div class="card">
+   <div class="row sp"><div class="row" style="gap:12px"><div class="tl"><b style="font-size:15px">8:30</b><div class="ln"></div><b style="font-size:15px">9:15</b></div><div><div style="font-weight:600">100 Ft Rd Metro</div><div class="mut">🚶 400 m from you</div><div style="height:12px"></div><div style="font-weight:600">Manyata Gate 2</div></div></div><div style="text-align:right"><div class="price">₹75</div><div class="mut">per seat</div></div></div>
+   <div class="row" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><div class="av" style="background:#e07a5f;width:34px;height:34px">P</div><div style="flex:1;font-size:14px"><b>Priya S.</b> <span class="star">★</span> 4.9 · 212 rides</div><span class="tag">⚡ Instant</span></div>
+  </div>
+  <div class="card">
+   <div class="row sp"><div class="row" style="gap:12px"><div class="tl"><b style="font-size:15px">8:45</b><div class="ln"></div><b style="font-size:15px">9:35</b></div><div><div style="font-weight:600">CMH Road</div><div class="mut">🚶 1.1 km from you</div><div style="height:12px"></div><div style="font-weight:600">Manyata Tech Park</div></div></div><div style="text-align:right"><div class="price">₹60</div><div class="mut">per seat</div></div></div>
+   <div class="row" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><div class="av" style="background:#3d85c6;width:34px;height:34px">R</div><div style="flex:1;font-size:14px"><b>Rahul K.</b> <span class="star">★</span> 4.7 · 58 rides</div><span class="tag" style="background:#fff4e5;color:#b25e00">3 seats left</span></div>
+  </div>
+  <div class="card">
+   <div class="row sp"><div class="row" style="gap:12px"><div class="tl"><b style="font-size:15px">9:00</b><div class="ln"></div><b style="font-size:15px">9:40</b></div><div><div style="font-weight:600">Domlur Flyover</div><div class="mut">🚶 1.8 km from you</div><div style="height:12px"></div><div style="font-weight:600">Manyata Gate 1</div></div></div><div style="text-align:right"><div class="price">₹80</div><div class="mut">per seat</div></div></div>
+   <div class="row" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><div class="av" style="background:#c2185b;width:34px;height:34px">M</div><div style="flex:1;font-size:14px"><b>Meera J.</b> <span class="star">★</span> 5.0 · 31 rides</div><span class="tag" style="background:#fde8f1;color:#c2185b">♀ Women only</span></div>
+  </div>
+ </div>
+</div>
+
+<!-- 3 RIDE DETAIL -->
+<div class="phone" id="s3">
+ <div class="map" style="height:300px;flex:none">
+  <svg width="370" height="300" viewBox="0 0 370 300">
+   <g stroke="#fff" stroke-width="10" fill="none"><path d="M0 70 H370"/><path d="M0 200 H370"/><path d="M90 0 V300"/><path d="M260 0 V300"/><path d="M0 280 L370 20"/></g>
+   <rect x="110" y="90" width="60" height="45" rx="6" fill="#d4e8d4"/><rect x="280" y="215" width="70" height="50" rx="6" fill="#d4e8d4"/>
+   <path d="M50 250 C 90 230, 120 210, 150 170 S 230 110, 310 60" stroke="#0f9d6b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <circle cx="50" cy="250" r="8" fill="#fff" stroke="#0f9d6b" stroke-width="4"/>
+   <rect x="302" y="52" width="16" height="16" rx="3" fill="#16202a"/>
+   <circle cx="150" cy="170" r="11" fill="#7c5cff" stroke="#fff" stroke-width="3"/><text x="150" y="174" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">You</text>
+  </svg>
+  <div style="position:absolute;top:50px;left:16px;width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15)"><svg class="ic"><use href="#i-back"/></svg></div>
+ </div>
+ <div class="content" style="background:#fff;border-radius:24px 24px 0 0;margin-top:-24px;padding-top:20px;position:relative">
+  <div class="row sp"><div><h2>Tomorrow, 8:30 AM</h2><div class="mut">45 min · 14.2 km · Recurring Mon–Fri</div></div><div style="text-align:right"><div class="price">₹75</div><div class="mut">per seat</div></div></div>
+  <div style="margin:16px 0;padding:14px;background:var(--bg);border-radius:14px">
+   <div class="row" style="gap:12px;align-items:flex-start"><div class="tl" style="padding-top:4px"><span class="dot"></span><div class="ln" style="height:30px"></div><span class="dot f"></span></div><div style="flex:1"><div style="font-weight:600">8:38 · 100 Ft Rd Metro <span class="tag" style="margin-left:4px">Your pickup</span></div><div class="mut">Change pickup point ›</div><div style="height:14px"></div><div style="font-weight:600">9:15 · Manyata Tech Park, Gate 2</div></div></div>
+  </div>
+  <div class="row"><div class="av" style="background:#e07a5f;width:50px;height:50px">P</div><div style="flex:1"><div style="font-weight:700;font-size:16px">Priya S. <svg style="width:16px;height:16px;color:var(--g);vertical-align:-3px"><use href="#i-shield"/></svg></div><div class="mut"><span class="star">★</span> 4.9 · 212 rides · ID verified</div></div><svg class="ic" style="color:var(--g)"><use href="#i-chat"/></svg></div>
+  <div class="row" style="gap:6px;margin:12px 0;flex-wrap:wrap"><span class="chip">🚭 No smoking</span><span class="chip">🎵 Soft music</span><span class="chip">👥 Max 2 in back</span></div>
+  <div class="row mut" style="margin-bottom:14px">🚗 White Honda City · 2 of 3 seats left</div>
+  <div class="btn">Book seat · ₹75</div>
+  <div class="mut" style="text-align:center;margin-top:8px">⚡ Instant booking · Free cancellation until 6:30 AM</div>
+ </div>
+</div>
+
+<!-- 4 OFFER A RIDE -->
+<div class="phone" id="s4">
+ <div class="sb"><span>18:02</span><span>●●● 5G ▮</span></div>
+ <div class="content">
+  <div class="row" style="margin:4px 0 14px"><svg class="ic"><use href="#i-back"/></svg><h2>Offer a ride</h2></div>
+  <div class="card" style="padding:6px 16px">
+   <div class="field"><span class="dot"></span><span>Koramangala 5th Block</span></div>
+   <div class="field"><span class="dot f"></span><span>Manyata Tech Park</span></div>
+   <div class="field" style="color:var(--g);font-weight:600;font-size:14px">+ Add stopover</div>
+  </div>
+  <div class="sec">When</div>
+  <div class="card">
+   <div class="row sp"><span style="font-weight:600">Departure</span><span style="font-weight:700;font-size:18px">8:15 AM</span></div>
+   <div class="row sp" style="margin-top:14px"><span style="font-weight:600">Repeat weekly</span><span class="tog"></span></div>
+   <div class="row sp" style="margin-top:12px"><span class="day on">M</span><span class="day on">T</span><span class="day on">W</span><span class="day on">T</span><span class="day on">F</span><span class="day">S</span><span class="day">S</span></div>
+  </div>
+  <div class="sec">Seats & price</div>
+  <div class="card">
+   <div class="row sp"><span style="font-weight:600">Seats available</span><div class="row" style="gap:16px"><span class="day">−</span><b style="font-size:18px">3</b><span class="day">+</span></div></div>
+   <div class="row sp" style="margin-top:14px"><div><span style="font-weight:600">Price per seat</span><div class="mut">Suggested ₹70 · max ₹85</div></div><b style="font-size:20px">₹70</b></div>
+   <div style="height:6px;background:var(--line);border-radius:3px;margin-top:10px;position:relative"><div style="width:55%;height:6px;background:var(--g);border-radius:3px"></div><div style="position:absolute;left:55%;top:-6px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:#fff;border:3px solid var(--g)"></div></div>
+  </div>
+  <div class="card row sp"><div><div style="font-weight:600">Instant booking</div><div class="mut">Riders join without your approval</div></div><span class="tog off"></span></div>
+  <div class="btn">Publish ride</div>
+ </div>
+</div>
+
+<!-- 5 MY RIDES / BALANCES -->
+<div class="phone" id="s5">
+ <div class="sb"><span>19:40</span><span>●●● 5G ▮</span></div>
+ <div class="content">
+  <h1 style="margin:6px 0 14px">My rides</h1>
+  <div class="row" style="background:#e9edf1;border-radius:12px;padding:4px;margin-bottom:16px"><div style="flex:1;text-align:center;padding:8px;font-size:14px;font-weight:600;color:var(--mut)">Upcoming</div><div style="flex:1;text-align:center;padding:8px;font-size:14px;font-weight:600;color:var(--mut)">Past</div><div style="flex:1;text-align:center;padding:8px;font-size:14px;font-weight:600;background:#fff;border-radius:9px">Balances</div></div>
+  <div class="card" style="background:var(--g);color:#fff">
+   <div style="font-size:13px;opacity:.85">Net balance this month</div>
+   <div style="font-size:34px;font-weight:700;margin:4px 0">+ ₹1,240</div>
+   <div style="font-size:13px;opacity:.85">You're owed ₹1,690 · You owe ₹450</div>
+  </div>
+  <div class="sec">Owed to you (as driver)</div>
+  <div class="card">
+   <div class="row" style="padding-bottom:12px;border-bottom:1px solid var(--line)"><div class="av" style="background:#7c5cff">A</div><div style="flex:1"><b>Arjun M.</b><div class="mut">12 trips · Nov 1–13</div></div><div style="text-align:right"><b style="color:var(--g)">₹900</b><div style="font-size:12px;color:var(--g);font-weight:600">Remind</div></div></div>
+   <div class="row" style="padding-top:12px"><div class="av" style="background:#3d85c6">N</div><div style="flex:1"><b>Neha R.</b><div class="mut">8 trips · Nov 1–13</div></div><div style="text-align:right"><b style="color:var(--g)">₹790</b><div style="font-size:12px;color:var(--g);font-weight:600">Remind</div></div></div>
+  </div>
+  <div class="sec">You owe (as rider)</div>
+  <div class="card">
+   <div class="row"><div class="av" style="background:#e07a5f">P</div><div style="flex:1"><b>Priya S.</b><div class="mut">6 trips · Nov 6–13</div></div><b>₹450</b></div>
+   <div class="row" style="gap:10px;margin-top:14px"><div class="btn o" style="flex:1;padding:11px;font-size:14px">Mark as paid</div><div class="btn" style="flex:1;padding:11px;font-size:14px">Pay via UPI</div></div>
+  </div>
+ </div>
+ <div class="tab"><div><svg class="ic"><use href="#i-home"/></svg>Home</div><div class="on"><svg class="ic"><use href="#i-car"/></svg>My rides</div><div><svg class="ic"><use href="#i-plus"/></svg>Offer</div><div><svg class="ic"><use href="#i-chat"/></svg>Inbox</div><div><svg class="ic"><use href="#i-user"/></svg>Profile</div></div>
+</div>
+
+<!-- 6 ACTIVE TRIP -->
+<div class="phone" id="s6">
+ <div class="map" style="flex:1">
+  <svg width="370" height="520" viewBox="0 0 370 520">
+   <g stroke="#fff" stroke-width="12" fill="none"><path d="M0 120 H370"/><path d="M0 330 H370"/><path d="M70 0 V520"/><path d="M290 0 V520"/><path d="M0 470 L370 60"/></g>
+   <rect x="100" y="150" width="70" height="60" rx="6" fill="#d4e8d4"/><rect x="190" y="360" width="70" height="60" rx="6" fill="#d4e8d4"/>
+   <path d="M60 480 C 120 420, 150 360, 180 300" stroke="#9fb3bf" stroke-width="5" fill="none" stroke-dasharray="2 9" stroke-linecap="round"/>
+   <path d="M180 300 C 210 240, 260 170, 320 90" stroke="#0f9d6b" stroke-width="6" fill="none" stroke-linecap="round"/>
+   <rect x="312" y="82" width="16" height="16" rx="3" fill="#16202a"/>
+   <circle cx="180" cy="300" r="22" fill="#0f9d6b" opacity=".2"/><circle cx="180" cy="300" r="12" fill="#0f9d6b" stroke="#fff" stroke-width="3"/>
+  </svg>
+  <div style="position:absolute;top:56px;left:16px;right:16px" class="card row"><span style="font-size:22px">↗</span><div><div style="font-weight:700">Continue on Outer Ring Rd</div><div class="mut">Arriving 9:14 AM · 6.3 km left</div></div></div>
+ </div>
+ <div style="background:#fff;border-radius:24px 24px 0 0;margin-top:-24px;position:relative;padding:18px">
+  <div class="row sp"><div><span class="tag">● TRIP IN PROGRESS</span><h2 style="margin-top:8px">21 min to Manyata Gate 2</h2></div></div>
+  <div class="row" style="margin:14px 0"><div class="av" style="background:#e07a5f">P</div><div style="flex:1"><b>Priya S.</b> · driver<div class="mut">White Honda City · KA 03 MN 4521</div></div><div class="row" style="gap:8px"><div class="av" style="background:var(--gl);color:var(--g);width:38px;height:38px"><svg class="ic" style="width:20px"><use href="#i-phone"/></svg></div><div class="av" style="background:var(--gl);color:var(--g);width:38px;height:38px"><svg class="ic" style="width:20px"><use href="#i-chat"/></svg></div></div></div>
+  <div class="row" style="gap:10px"><div class="btn o" style="flex:1;padding:13px;font-size:15px"><svg style="width:16px;height:16px;vertical-align:-3px"><use href="#i-share"/></svg> Share trip</div><div class="btn" style="flex:1;padding:13px;font-size:15px;background:var(--warn)">SOS</div></div>
+ </div>
+</div>
+
+</body></html>
