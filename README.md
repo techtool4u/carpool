@@ -19,8 +19,9 @@ Plain HTML, CSS and JavaScript (no framework, no build step for the web page), p
 - **Friends:** offer or ask for rides (office commute, airport, wedding), log trips, see who owes what and settle up.
 - **Reminders** on Android: the evening before and 30 minutes before your driving turn.
 - **Backup / restore** of all data as text.
+- **Share a group with other parents (no server):** on a group tap **Invite** and send the message on WhatsApp. The other parent opens Carpool, taps **Join a group** and pastes the whole message, then picks which family is theirs (a new install is set up as that family; an existing one is matched, kids by first name). The message holds a compressed copy of the group, its families and its turns. After changes, anyone taps **Invite** again and the others paste it to update; trips already checked in on a phone are kept.
 
-**Current limit:** data is saved on the phone only (no server yet), so one parent (the organiser) keeps the group up to date and everyone else gets updates through the share messages (WhatsApp etc.). Sync between parents' phones needs a backend and is the next step.
+**Current limit:** there's no server, so phones don't update each other automatically: a change reaches other parents when someone sends the group again with **Invite**. Live sync needs a backend (e.g. Firebase or Supabase) and is a possible next step.
 
 ## Android app
 

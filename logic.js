@@ -173,7 +173,98 @@
     });
   }
 
+  // ---------- sharing a group between phones (no server) ----------
+  // A snapshot is everything another parent needs to see the group: the group, its families (kids, cars,
+  // can't-drive days for this group) and its turns from a week ago onward.
+  function snapshotGroup(state, groupId, sender) {
+    const g = byId(state.groups, groupId); if (!g) return null;
+    const since = addDays(today(), -7);
+    const families = g.familyIds.map(id => byId(state.families, id)).filter(Boolean).map(f => ({
+      id: f.id, name: f.name, color: f.color, friend: !!f.friend, adults: f.adults, kids: f.kids, cars: f.cars || [],
+      unavailable: { [g.id]: (f.unavailable && f.unavailable[g.id]) || [] },
+    }));
+    const assignments = {};
+    for (const [k, a] of Object.entries(state.assignments)) { const p = parseKey(k); if (p.groupId === g.id && p.date >= since) assignments[k] = a; }
+    return { t: 'carpool-group', v: 1, at: Date.now(), from: sender || '', fromFamily: state.me, group: g, families, assignments };
+  }
+
+  // Give local ids new names everywhere (used when "my family" on this phone is the same family as one in a snapshot).
+  function renameIds(state, map) {
+    let json = JSON.stringify(state);
+    for (const [from, to] of Object.entries(map)) if (from !== to) json = json.split(JSON.stringify(from)).join(JSON.stringify(to));
+    return JSON.parse(json);
+  }
+
+  // Families in the snapshot that could be "me" on this phone.
+  function snapshotNeedsWho(state, snap) { return !state.me || !snap.families.some(f => f.id === state.me); }
+
+  // Merge a snapshot into this phone's data. `whoId` = the snapshot family that is me on this phone (only
+  // needed when snapshotNeedsWho). Returns the new state (the input is not changed).
+  function applySnapshot(state, snap, whoId) {
+    let s = JSON.parse(JSON.stringify(state));
+    if (whoId && snapshotNeedsWho(s, snap)) {
+      const theirs = snap.families.find(f => f.id === whoId);
+      if (s.me && theirs) {
+        // My family on this phone takes the snapshot's ids, so both phones use the same ids from now on.
+        const mine = byId(s.families, s.me); const map = { [s.me]: whoId };
+        for (const k of mine ? mine.kids : []) {
+          const twin = theirs.kids.find(x => x.name.trim().toLowerCase() === k.name.trim().toLowerCase());
+          if (twin) map[k.id] = twin.id;
+        }
+        s = renameIds(s, map);
+      }
+      s.me = whoId;
+    }
+    for (const f of snap.families) {
+      const local = byId(s.families, f.id);
+      if (!local) { s.families.push(JSON.parse(JSON.stringify(f))); continue; }
+      const unavailable = { ...(local.unavailable || {}), ...f.unavailable };
+      if (f.id === s.me) {
+        // This phone is the source of truth for my own family: only add kids and cars I don't have yet.
+        for (const k of f.kids) if (!local.kids.some(x => x.id === k.id)) local.kids.push(k);
+        if (!(local.cars || []).length) local.cars = f.cars;
+        local.unavailable = unavailable;
+      } else Object.assign(local, JSON.parse(JSON.stringify(f)), { unavailable, friend: local.friend || f.friend });
+    }
+    const gi = s.groups.findIndex(x => x.id === snap.group.id);
+    if (gi >= 0) s.groups[gi] = JSON.parse(JSON.stringify(snap.group)); else s.groups.push(JSON.parse(JSON.stringify(snap.group)));
+    // Turns: the snapshot wins, except a trip this phone has already started or finished and the snapshot hasn't.
+    const since = addDays(today(), -7);
+    const rank = a => (a && a.status === 'done' ? 2 : a && a.status === 'active' ? 1 : 0);
+    for (const k of Object.keys(s.assignments)) {
+      const p = parseKey(k);
+      if (p.groupId === snap.group.id && p.date >= since && !snap.assignments[k] && rank(s.assignments[k]) === 0) delete s.assignments[k];
+    }
+    for (const [k, a] of Object.entries(snap.assignments)) {
+      if (rank(a) >= rank(s.assignments[k])) s.assignments[k] = JSON.parse(JSON.stringify(a));
+    }
+    return s;
+  }
+
+  // Text code: JSON, compressed (deflate) where available, base64url. Prefix CARPOOL1 = deflated, CARPOOL0 = plain.
+  const b64 = bytes => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+  const unb64 = str => { const s = atob(str.replace(/-/g, '+').replace(/_/g, '/')); const out = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i); return out; };
+  async function pipe(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
+  async function encodeSnapshot(snap) {
+    const bytes = new TextEncoder().encode(JSON.stringify(snap));
+    if (typeof CompressionStream !== 'undefined') return 'CARPOOL1:' + b64(await pipe(bytes, new CompressionStream('deflate-raw')));
+    return 'CARPOOL0:' + b64(bytes);
+  }
+  async function decodeSnapshot(text) {
+    const m = String(text || '').match(/CARPOOL([01]):([A-Za-z0-9_-]+)/);
+    if (!m) throw new Error('No group code found in that text');
+    let bytes = unb64(m[2]);
+    if (m[1] === '1') {
+      if (typeof DecompressionStream === 'undefined') throw new Error('This phone cannot read compressed codes');
+      bytes = await pipe(bytes, new DecompressionStream('deflate-raw'));
+    }
+    const snap = JSON.parse(new TextDecoder().decode(bytes));
+    if (!snap || snap.t !== 'carpool-group' || !snap.group || !Array.isArray(snap.families)) throw new Error('Not a carpool group');
+    return snap;
+  }
+
   const api = { ymd, parse, addDays, weekday, today, mondayOf, byId, slotKey, parseKey, tripKids, seatNeeds, carThatFits,
-    canDrive, tripSlots, fairness, generateRotation, requestCover, takeCover, swap, seatPlan, balances };
+    canDrive, tripSlots, fairness, generateRotation, requestCover, takeCover, swap, seatPlan, balances,
+    snapshotGroup, snapshotNeedsWho, applySnapshot, renameIds, encodeSnapshot, decodeSnapshot };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Logic = api;
 })(typeof window !== 'undefined' ? window : globalThis);

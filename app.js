@@ -182,7 +182,8 @@
         <label>Family name</label><input name="name" placeholder="e.g. Sharma family">
         <button class="btn" style="margin-top:16px">Continue</button>
       </form></div>
-    <button class="btn o" data-act="demo">Explore with sample families</button>
+    <button class="btn o" data-act="join">Join a group a friend shared</button>
+    <button class="btn o" style="margin-top:10px" data-act="demo">Explore with sample families</button>
     <p class="note">Everything is saved on this phone only. Share updates with other parents through WhatsApp or any chat app.</p>`;
   views.setup = () => { const f = me(); return f ? views.family(S.me, true) : views.welcome(); };
 
@@ -240,7 +241,7 @@
 
   // ---------- Groups ----------
   views.groups = () => {
-    let h = `<div class="row sp" style="margin:6px 0 14px"><h1>Groups</h1><a class="btn s" href="#/group-new">+ New group</a></div>`;
+    let h = `<div class="row sp" style="margin:6px 0 14px"><h1>Groups</h1><div class="row" style="gap:8px"><button class="btn o s" data-act="join">Join</button><a class="btn s" href="#/group-new">+ New group</a></div></div>`;
     if (!S.groups.length) return h + `<div class="card empty"><div class="big">🏫</div><h3>No groups yet</h3><p class="mut">A group is one carpool, e.g. "School mornings" or "Swimming Tue & Thu".</p></div>`;
     for (const g of S.groups) {
       const kids = g.kidIds.length;
@@ -253,7 +254,7 @@
   views.group = (id, tab = 'rotation', wk) => {
     const g = L.byId(S.groups, id); if (!g) return views.groups();
     const tabs = [['rotation', 'Rotation'], ['families', 'Families'], ['trips', 'Settings']];
-    let h = top(esc(g.name), [GROUP_TYPES[g.type], g.place].filter(Boolean).map(esc).join(' · ')) +
+    let h = top(esc(g.name), [GROUP_TYPES[g.type], g.place].filter(Boolean).map(esc).join(' · '), `<button class="chip on" data-act="invite" data-id="${g.id}"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px"><use href="#i-share"/></svg> Invite</button>`) +
       `<div class="seg">${tabs.map(([k, n]) => `<a href="#/group/${g.id}/${k}" class="${tab === k ? 'on' : ''}">${n}</a>`).join('')}</div>`;
     if (tab === 'rotation') h += groupRotation(g, wk || L.mondayOf(L.today()));
     if (tab === 'families') h += groupFamilies(g);
@@ -292,7 +293,7 @@
   }
 
   function groupFamilies(g) {
-    let h = '';
+    let h = `<div class="card soft"><b>Share this group with the other parents</b><p class="mut" style="margin:4px 0 10px">Tap Invite and send the message on WhatsApp. They tap “Join a group” in Carpool and paste it. After changes, send it again to update their phones.</p><button class="btn s" data-act="invite" data-id="${g.id}">Invite / send update</button></div>`;
     for (const fid of g.familyIds) {
       const f = fam(fid); if (!f) continue;
       const off = (f.unavailable && f.unavailable[g.id]) || [];
@@ -507,6 +508,27 @@
 
   // ---------- actions ----------
   const A = {};
+  let pendingSnap = null;
+  A.invite = async d => {
+    const g = L.byId(S.groups, d.id);
+    try {
+      const code = await L.encodeSnapshot(L.snapshotGroup(S, g.id, me().adults[0].name));
+      await share(`🚗 ${me().adults[0].name} shared the carpool “${g.name}” with you.\nOpen the Carpool app, tap “Join a group” and paste this whole message. If you already have the group, pasting it updates your turns.\n(It includes the kids' details, so please keep it within the group.)\n\n${code}`, 'Carpool invite: ' + g.name);
+    } catch (e) { toast('Could not create the invite: ' + e.message); }
+  };
+  A.join = (d, el, e) => {
+    if (e) e.preventDefault();
+    openSheet(`<h2>Join a group</h2><p class="mut" style="margin-top:4px">Paste the whole invite message a parent sent you.</p>
+      <form data-form="join"><textarea name="text" required placeholder="🚗 … CARPOOL1:…" style="margin-top:10px"></textarea>
+      <div class="btns"><button type="button" class="btn o" data-act="pasteJoin">Paste</button><button class="btn">Next</button></div></form>`);
+  };
+  A.pasteJoin = async () => { try { const t = await navigator.clipboard.readText(); $('#sheet textarea').value = t; } catch (e) { toast('Long-press the box and choose Paste'); } };
+  A.joinAs = d => {
+    const snap = pendingSnap; if (!snap) return;
+    S = L.applySnapshot(S, snap, d.f); if (!S.settings) S.settings = blank().settings; S.settings.demo = false;
+    pendingSnap = null; L.generateRotation(S, L.byId(S.groups, snap.group.id)); save(); closeSheet();
+    location.hash = '#/group/' + snap.group.id; render(); toast(`You're in “${snap.group.name}”`);
+  };
   A.back = (d, el, e) => { e.preventDefault(); history.back(); };
   A.demo = () => { S = demo(); save(); go('#/today'); render(); toast('Sample families loaded'); };
   A.closeSheet = () => closeSheet();
@@ -516,6 +538,7 @@
       <a href="#/group-new"><span class="em">🏫</span><span class="grow">Carpool group<div class="mut">School or class with fair driving turns</div></span></a>
       <a href="#/outing-new"><span class="em">🎂</span><span class="grow">Kids' outing<div class="mut">Party, playdate, movie: one-off seats</div></span></a>
       <a href="#/ride-new/offer"><span class="em">🚙</span><span class="grow">Ride with friends<div class="mut">Offer seats to friends</div></span></a>
+      <button data-act="join"><span class="em">📩</span><span class="grow">Join a group<div class="mut">Paste the invite a friend sent you</div></span></button>
       <a href="#/family-new/friend"><span class="em">👋</span><span class="grow">Friend or family<div class="mut">Add people you carpool with</div></span></a></div>`);
   };
   A.confirm = d => { const s = slotInfo(d.key); s.a.confirmed = true; save(); render(); toast("Confirmed. Others will see you're driving."); };
@@ -680,6 +703,20 @@
 
   // ---------- forms ----------
   const F = {};
+  F.join = async fd => {
+    let snap;
+    try { snap = await L.decodeSnapshot(fd.get('text')); } catch (e) { return toast(e.message === 'No group code found in that text' ? 'No invite found. Paste the whole message.' : 'That invite could not be read'); }
+    pendingSnap = snap;
+    const when = new Date(snap.at).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+    const head = `<h2>${esc(snap.group.name)}</h2><p class="mut" style="margin:4px 0 12px">Shared by ${esc(snap.from || 'a parent')} · ${esc(when)} · ${snap.families.length} families</p>`;
+    if (!L.snapshotNeedsWho(S, snap)) {
+      const had = L.byId(S.groups, snap.group.id);
+      return openSheet(head + `<div class="card">${had ? 'This updates the group on your phone with their latest turns, families and trips.' : 'Add this group to your phone?'}</div><button class="btn" data-act="joinAs" data-f="">${had ? 'Update group' : 'Add group'}</button>`);
+    }
+    openSheet(head + `<h3>Which family is yours?</h3><p class="mut" style="margin:4px 0 10px">${S.me ? 'Your family on this phone will be matched with it (kids by first name).' : 'The app sets you up as this family.'}</p>
+      <div class="menu">${snap.families.map(f => `<button data-act="joinAs" data-f="${esc(f.id)}"><span class="av sm" style="background:${esc(f.color || '#9aa5b1')}">${esc(initial(f.adults[0]?.name || f.name))}</span><span class="grow">${esc(f.name)}<div class="mut">${esc(f.adults.map(a => a.name).join(' & '))}${f.kids.length ? ' · ' + f.kids.map(k => esc(k.name)).join(', ') : ''}</div></span></button>`).join('')}</div>
+      <p class="note">Not listed? Ask ${esc(snap.from || 'the organiser')} to add your family to the group first, then send the invite again.</p>`);
+  };
   const days = fd => fd.getAll('day').map(Number);
   F.setup = fd => {
     const id = 'f' + uid();

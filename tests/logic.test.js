@@ -93,3 +93,53 @@ test('balances net out pairs', () => {
   ]);
   assert.deepEqual(b, [{ from: 'me', to: 'dev', amount: 100 }]);
 });
+
+test('share a group: friend with no setup picks their family', async () => {
+  const s = world(); s.me = 'A'; s.groups[0].id = 'g';
+  L.generateRotation(s, s.group, { from: L.today(), weeks: 2 });
+  const code = await L.encodeSnapshot(L.snapshotGroup(s, 'g', 'Asha'));
+  assert.match(code, /^CARPOOL[01]:/);
+  const snap = await L.decodeSnapshot('Join our carpool!\n\n' + code + '\nthanks');
+  const friend = { me: null, families: [], groups: [], assignments: {} };
+  assert.equal(L.snapshotNeedsWho(friend, snap), true);
+  const out = L.applySnapshot(friend, snap, 'B');
+  assert.equal(out.me, 'B');
+  assert.equal(out.groups.length, 1);
+  assert.equal(out.families.length, 4);
+  assert.deepEqual(Object.keys(out.assignments).sort(), Object.keys(s.assignments).sort());
+});
+
+test('share a group: friend already set up takes the shared ids, and updates flow back', async () => {
+  const org = world(); org.me = 'A';
+  L.generateRotation(org, org.group, { from: L.today(), weeks: 2 });
+  // Friend set up their own family first, with different ids, and has another group of their own.
+  const friend = { me: 'mine', families: [{ id: 'mine', name: 'B', adults: [{ id: 'x', name: 'Bee' }], kids: [{ id: 'kLocal', name: 'B1', seat: 'booster' }], cars: [{ id: 'c', seats: 6, boosters: 2 }], unavailable: {} }],
+    groups: [{ id: 'other', name: 'Swim', familyIds: ['mine'], kidIds: ['kLocal'], trips: [], skipDates: [] }], assignments: {}, rides: [{ ownerId: 'mine', riders: [] }] };
+  const snap = await L.decodeSnapshot(await L.encodeSnapshot(L.snapshotGroup(org, 'g')));
+  const out = L.applySnapshot(friend, snap, 'B');
+  assert.equal(out.me, 'B');
+  const me = out.families.find(f => f.id === 'B');
+  assert.equal(me.cars[0].seats, 6, 'kept my own car');
+  assert.deepEqual(me.kids.map(k => k.id), ['b1'], 'my kid matched by name and took the shared id');
+  assert.deepEqual(out.groups.find(g => g.id === 'other').kidIds, ['b1']);
+  assert.equal(out.rides[0].ownerId, 'B');
+  // Friend covers a trip and shares back; organiser sees it, and no duplicate family appears.
+  const key = Object.keys(out.assignments)[0];
+  L.takeCover(out, key, 'B');
+  const back = await L.decodeSnapshot(await L.encodeSnapshot(L.snapshotGroup(out, 'g')));
+  assert.equal(L.snapshotNeedsWho(org, back), false);
+  const org2 = L.applySnapshot(org, back);
+  assert.equal(org2.assignments[key].driverId, 'B');
+  assert.equal(org2.families.length, 4);
+  assert.equal(org2.families.find(f => f.id === 'B').cars[0].seats, 6, 'organiser now has the friend\'s own car');
+});
+
+test('share a group: a trip checked in here is not undone by an older snapshot', async () => {
+  const s = world(); s.me = 'A';
+  L.generateRotation(s, s.group, { from: L.today(), weeks: 1 });
+  const snap = L.snapshotGroup(s, 'g');
+  const key = Object.keys(s.assignments)[0];
+  s.assignments[key].status = 'done';
+  const out = L.applySnapshot(s, JSON.parse(JSON.stringify(snap)));
+  assert.equal(out.assignments[key].status, 'done');
+});
