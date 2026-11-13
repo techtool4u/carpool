@@ -1,42 +1,65 @@
-# Carpool App — Product Requirements
+# Family & Friends Carpool App: Product Requirements
 
-**Status:** Draft v0.1 · **Date:** 2026-11-13
+**Status:** Draft v0.3 (parents, kids and trusted friends) · **Date:** 2026-11-13
 
 ---
 
 ## 1. Overview
 
 ### 1.1 Problem
-People who travel the same route regularly (commuters, school runs, office campuses, events) waste money and time driving alone. Coordinating shared rides today happens over WhatsApp groups and spreadsheets: it's hard to see who is driving when, seats get double-booked, splitting fuel costs is awkward, and there is no safety or trust layer.
+Parents spend hours each week driving kids to school and after-school classes (music, swimming, sports, tuition). Many families nearby go to the same places at the same times, but sharing the driving is organized through WhatsApp groups and memory:
+- Nobody is sure **whose turn** it is, and some parents end up driving more than their share.
+- Last-minute changes (sick child, meeting, holiday) cause confusion and missed pickups.
+- Parents don't know **when their child was picked up or dropped off**.
+- Important child info (allergies, booster seat, emergency contacts) isn't to hand for the driving parent.
+
+The same happens for kids' social life (birthday parties, playdates, movies) and for parents themselves when they share rides with friends to work, events or weekend trips.
 
 ### 1.2 Vision
-A simple mobile app where drivers offer seats on trips they're already making, riders find and book those seats, and the group shares costs fairly — with trust and safety built in.
+A private app for **your circle: family, other parents and friends**. Parents form carpool groups for school and classes, and the app builds a **fair driving rotation**, shows who's driving today, and sends every parent a **pickup and drop-off notification** for their child. The same trusted circle can organise one-off rides for kids' outings and rides for the adults themselves.
 
-### 1.3 Goals
+### 1.3 Who it's for
+- **Parents, guardians and their trusted friends.** Everything is invite-only: you only ever ride with people in your circle. No public rides, no strangers, no paid drivers.
+- Groups can mix parents from the same school with friends and neighbours from anywhere.
+- Kids don't have accounts in v1. They're profiles managed by their parents.
+
+### 1.4 Three ways to use it
+| Use case | Example | Shape |
+|----------|---------|-------|
+| **Kids: regular carpools** (core) | School mornings, swimming every Tuesday | Recurring trips, driving rotation, check-ins |
+| **Kids: outings with friends** | Riya's birthday party Saturday 4 PM; movie with 3 friends | One-off event, parents offer seats, check-ins |
+| **Adults: rides with friends** | Office commute with a neighbour; friends driving to a wedding or weekend trip | Offer / request seats inside your friends circle, optional cost split |
+
+### 1.5 Goals
 | # | Goal | Measure of success |
 |---|------|--------------------|
-| G1 | Make it fast to offer or find a ride | Offer a ride in < 60 s; find & book in < 3 taps from search results |
-| G2 | Make recurring commutes effortless | ≥ 50% of active users have a recurring ride |
-| G3 | Fair, friction-free cost sharing | ≥ 90% of trips settled within 7 days |
-| G4 | Riders and drivers feel safe | Avg. rating ≥ 4.5; < 1% trips with safety reports |
+| G1 | Everyone always knows who's driving | 0 missed pickups caused by confusion; ≥ 90% of trips confirmed by the driver the day before |
+| G2 | Driving is shared fairly | Gap between the most and least driving parent in a group ≤ 1 trip per month |
+| G3 | Parents feel their kids are safe | 100% of trips send pickup and drop-off notifications; parent satisfaction ≥ 4.5/5 |
+| G4 | Changes are painless | ≥ 80% of swap requests resolved inside the app within 12 h |
 
-### 1.4 Non-goals (v1)
-- Not a commercial taxi / ride-hailing service (no professional drivers, no profit for drivers — cost-sharing only).
-- No on-demand "car in 5 minutes" dispatch.
-- No autonomous route optimization across a whole fleet.
+| G5 | Easy to organise a one-off ride with friends | Event created and all kids/adults seated in < 3 min |
+
+### 1.6 Non-goals
+- Public ride marketplace or matching with unknown people. Only people you've connected with.
+- In-app payments or making money from rides. A simple "who owes what" cost split for adult rides only.
+- Child accounts, kid-to-kid chat, or anything that collects data directly from children.
+- School-bus or professional-driver management.
 
 ---
 
-## 2. Users & Personas
+## 2. Users & Roles
 
-| Persona | Description | Key needs |
-|---------|-------------|-----------|
-| **Driver** – "Priya, daily commuter" | Drives 25 km to office, has 3 empty seats | Offset fuel/toll costs, low effort, choose who rides |
-| **Rider** – "Arjun, no car" | Needs a reliable way to work | Find rides near home, predictable schedule, know who's driving |
-| **Group admin** – "HR / school coordinator" | Runs a carpool program for a company, campus or school | Private group, verify members, see participation |
-| **Parent** – school run | Rotates driving kids with other parents | Fair rotation schedule, kid-safety, notifications |
+| Role | Description | Can do |
+|------|-------------|--------|
+| **Parent (group admin)** | Creates a carpool group, e.g. "Greenwood School, Grade 3, mornings" | Invite and remove families, set the schedule and rotation rules, everything a member can do |
+| **Parent (member)** | A parent in a group | Add their kids, drive their turns, request swaps, receive notifications |
+| **Co-parent / guardian** | A second adult in the same family | Shares the family's kids and turns; either adult can drive the family's turn |
+| **Friend** | An adult connected to you in the app (another parent, neighbour, colleague) | Join your groups and events when invited; offer or take seats on adult rides |
+| **Approved driver** | A trusted adult who may drive your child: grandparent, nanny or family friend, added by a family | Can be assigned that family's turn or an outing; every parent whose child is in the car can see who they are and opt out |
+| **Child (profile only)** | Managed by their parents | No login. Holds name, photo, school/class, seat needs, medical notes, emergency contacts |
 
-A single user can be both a driver and a rider.
+**Family** is the core unit: one or more adults, one or more kids, one or more cars. **Friends** are connections between adults; your **circle** is your family plus your friends.
 
 ---
 
@@ -44,169 +67,182 @@ A single user can be both a driver and a rider.
 
 | Release | Theme | Contents |
 |---------|-------|----------|
-| **MVP (v1)** | Core carpool loop | Accounts, profiles, vehicles, offer ride, search & book, recurring rides, in-app chat, notifications, cost split (record only), ratings, basic safety |
-| **v1.1** | Payments & groups | In-app payments/wallet, private groups (company/school), group verification by email domain |
-| **v2** | Smarts & scale | Live trip tracking, route-matching suggestions, driver rotation scheduler, rewards / CO₂ stats, admin analytics dashboard, web app |
+| **MVP (v1)** | Organize & know | Family setup, kid profiles, friends & invites, invite-only groups (parents + friends), schedules, auto rotation, today's view, swap requests, kids' outings, pickup/drop-off check-in and notifications, group chat, calendar sync |
+| **v1.1** | Friends & safety | Adult rides with friends, cost split, approved drivers (incl. family friends), live trip location, absence marking, school holiday calendars, "running late" alerts, fairness report |
+| **v2** | Smarter & bigger | Friends-of-friends suggestions (opt-in), route ordering for multiple pickups, school/admin portal, web app |
 
-Priority tags below: **P0** = MVP must-have, **P1** = v1.1, **P2** = v2.
+Priority tags: **P0** = MVP, **P1** = v1.1, **P2** = v2.
 
 ---
 
 ## 4. Functional Requirements
 
-### 4.1 Account & Onboarding
+### 4.1 Account & Family
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| AUTH-1 | Sign up / log in with phone number (OTP) | P0 |
-| AUTH-2 | Sign in with Google / Apple | P0 |
-| AUTH-3 | Email verification (used for work/school group membership) | P1 |
-| AUTH-4 | Log out, delete account (with data deletion) | P0 |
-| AUTH-5 | Onboarding: choose role(s) — driver, rider, or both; set home & work/school locations | P0 |
+| FAM-1 | Sign up with phone number (OTP) or Google / Apple | P0 |
+| FAM-2 | Create a family: adult name, photo, phone, home address (only shared with your groups) | P0 |
+| FAM-3 | Invite a co-parent to the family; both see and manage everything for the family | P0 |
+| FAM-4 | Add one or more cars: make, model, colour, plate, number of seats, booster/car seats available | P0 |
+| FAM-5 | Add approved drivers (grandparent, nanny, family friend) with name, photo, phone, relationship; they get a limited login. A friend already in the app can be approved with one tap | P1 |
+| FAM-6 | Delete account and all family and child data | P0 |
 
-### 4.2 Profile & Vehicle
+### 4.2 Friends
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| PROF-1 | Profile: name, photo, gender (optional), short bio, languages, preferences (music, smoking, pets, chattiness) | P0 |
-| PROF-2 | Public profile view showing rating, trips completed, verification badges, member since | P0 |
-| PROF-3 | Verification badges: phone, email, government ID, driver's license | P0 (phone) / P1 (ID, license) |
-| VEH-1 | Add one or more vehicles: make, model, color, plate number, seat count, photo | P0 |
-| VEH-2 | Driver must have ≥ 1 vehicle before offering a ride | P0 |
-| PROF-4 | Emergency contacts (1–3) | P0 |
+| FRD-1 | Add friends by phone contact, invite link or QR code; both sides must accept | P0 |
+| FRD-2 | Friends list with name, photo, family (kids' first names only if the friend's family shares them) | P0 |
+| FRD-3 | Friend circles / labels (e.g. "School parents", "Neighbours", "Office") to invite many at once | P1 |
+| FRD-4 | Remove or block a friend; they lose access to future events and rides (existing groups ask the admin) | P0 |
+| FRD-5 | Optional: suggest friends-of-friends from the same school (opt-in only, never shows kids) | P2 |
 
-### 4.3 Offer a Ride (Driver)
+### 4.3 Child Profiles
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| OFFER-1 | Create a ride: origin, destination, optional stopovers, date, departure time, seats available, vehicle | P0 |
-| OFFER-2 | Map-based address search with autocomplete; save favorite places (Home, Work) | P0 |
-| OFFER-3 | Suggested price per seat based on distance + fuel cost; driver can adjust within a cap (enforces cost-sharing, not profit) | P0 |
-| OFFER-4 | Recurring rides: repeat on chosen weekdays, with end date or indefinitely; edit/cancel single occurrence or series | P0 |
-| OFFER-5 | Return trip shortcut (create evening ride from morning ride) | P0 |
-| OFFER-6 | Booking mode: instant booking or manual approval | P0 |
-| OFFER-7 | Ride rules: women-only, max 2 in back, luggage size, detour tolerance | P1 |
-| OFFER-8 | Edit or cancel a ride; all booked riders notified; cancellation reason required | P0 |
-| OFFER-9 | Visibility: public, or restricted to a private group | P1 |
+| KID-1 | Add a child: first name, photo, age/grade, school | P0 |
+| KID-2 | Seat needs: car seat / booster / none (used to check a driver's car fits everyone) | P0 |
+| KID-3 | Medical and care notes: allergies, medications, conditions, "who can collect me" notes | P0 |
+| KID-4 | Emergency contacts (at least 2) | P0 |
+| KID-5 | Visibility: child details are only visible to the adults driving that child (in the same group); sensitive notes are shown to the driver only for the day of the trip | P0 |
 
-### 4.4 Find & Book a Ride (Rider)
+### 4.4 Carpool Groups
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| FIND-1 | Search by origin, destination, date, (optional) time window and seats needed | P0 |
-| FIND-2 | Match rides whose route passes within a configurable radius (default 2 km) of rider's pickup and drop-off — not only exact origin/destination | P0 |
-| FIND-3 | Results list & map view; sort by departure time, price, distance to pickup, rating | P0 |
-| FIND-4 | Filters: price, women-only, verified drivers, instant booking, preferences | P1 |
-| FIND-5 | Ride detail: driver profile, vehicle, route on map, pickup point, seats left, price, rules | P0 |
-| BOOK-1 | Request/book seat(s); choose pickup & drop-off points along the route | P0 |
-| BOOK-2 | Book a recurring seat (e.g., every Mon–Fri on a recurring ride) | P0 |
-| BOOK-3 | Driver accepts/declines requests (manual mode); request auto-expires after N hours | P0 |
-| BOOK-4 | Rider cancels booking; cancellation policy shown up front | P0 |
-| BOOK-5 | Seat inventory is consistent — no overbooking under concurrent requests | P0 |
-| FIND-6 | Ride alerts: "notify me when a ride matching this route is posted" | P1 |
-| FIND-7 | Ride request board: riders post a need, drivers can respond | P2 |
+| GRP-1 | Create a group for an activity: name, place (school / class address), type (school, sports, music, tuition, friends, other) | P0 |
+| GRP-2 | Invite families **only** from your friends list, by link, QR code or phone contact; any parent or friend can be invited, not only those from the same school; the admin approves each family before they join | P0 |
+| GRP-3 | Members see each family in the group: adults, kids in this group, cars, approved drivers | P0 |
+| GRP-4 | Admin can remove a family, transfer admin, or archive the group (e.g. end of school year) | P0 |
+| GRP-5 | A family can belong to many groups (school mornings, swimming Tuesdays, etc.) | P0 |
+| GRP-6 | Group size limit (default 8 families) to keep groups small and trusted | P0 |
 
-### 4.5 Trip Day / During Ride
+### 4.5 Schedule
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| TRIP-1 | Reminders before departure (default 1 h and 15 min) | P0 |
-| TRIP-2 | Driver taps "Start trip" / "End trip"; riders confirm pickup | P0 |
-| TRIP-3 | "Running late" quick message with ETA | P0 |
-| TRIP-4 | Navigation hand-off to Google Maps / Apple Maps / Waze | P0 |
-| TRIP-5 | Live location sharing of driver to booked riders (only while trip active) | P2 |
-| TRIP-6 | No-show reporting (driver or rider) | P0 |
+| SCH-1 | Define trips for a group: direction (to activity / back home / both), days of the week, times | P0 |
+| SCH-2 | Each family chooses which trips each child joins (e.g. mornings only) | P0 |
+| SCH-3 | One-off trips (field trip, a tournament on Saturday) | P0 |
+| SCH-4 | Skip dates: holidays, exams, cancelled classes; skipped trips don't count in the rotation | P0 |
+| SCH-5 | Import school holiday calendar (ICS file or link) | P1 |
+| SCH-6 | Mark a child absent for a date ("Mia is sick today"); driver and group notified | P1 |
+| SCH-7 | Pickup order and pickup times worked out from home addresses | P2 |
 
-### 4.6 Communication
+### 4.6 Driving Rotation (core feature)
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| CHAT-1 | 1:1 in-app chat between driver and each rider after booking request | P0 |
-| CHAT-2 | Group chat for each ride (driver + all booked riders) | P1 |
-| CHAT-3 | Masked calling (phone numbers not revealed) | P1 |
-| CHAT-4 | Block and report from chat | P0 |
+| ROT-1 | Auto-generate a driving rotation for the upcoming weeks from the families' availability | P0 |
+| ROT-2 | Rotation modes: round-robin by trip, by day of the week ("I always drive Tuesdays"), or by week | P0 |
+| ROT-3 | Each family sets availability: days/times they **can't** drive | P0 |
+| ROT-4 | Fairness: the rotation balances the number of trips (weighted by number of kids or distance, optional) across families; a fairness counter shows each family's trips given vs. received | P0 |
+| ROT-5 | The rotation only assigns a driver whose car has enough seats and the right car/booster seats for the kids on that trip | P0 |
+| ROT-6 | Admin can edit any assignment manually; the rotation rebalances the following weeks | P0 |
+| ROT-7 | Driver confirms their turn the evening before ("Confirmed ✓"); if not confirmed by a set time, the admin and that family get a reminder | P0 |
+| ROT-8 | Monthly fairness report per group | P1 |
 
-### 4.7 Notifications
+### 4.7 Swaps & Changes
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| NOTIF-1 | Push notifications for: booking request, accept/decline, cancellation, ride changes, new message, trip reminders, payment due/received, rating prompt | P0 |
-| NOTIF-2 | Email/SMS fallback for critical events (cancellations within 2 h) | P1 |
-| NOTIF-3 | User-configurable notification preferences | P0 |
+| SWAP-1 | "I can't drive": the driver requests cover for a trip; all available families get a request | P0 |
+| SWAP-2 | Another parent accepts with one tap ("I'll cover"); option for a direct swap ("I'll take your Tue, you take my Thu") | P0 |
+| SWAP-3 | Unresolved requests escalate: reminder after 2 h, urgent alert to all if under 12 h before the trip | P0 |
+| SWAP-4 | Accepted swaps update the rotation and the fairness counter automatically | P0 |
+| SWAP-5 | History of all changes visible to the group | P0 |
 
-### 4.8 Cost Sharing & Payments
+### 4.8 Kids' Outings with Friends
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| PAY-1 | Each booking shows price per seat; app records what each rider owes per trip | P0 |
-| PAY-2 | Running balance per driver–rider pair ("Arjun owes you ₹450 for 6 trips"); mark as settled (cash/UPI/external) | P0 |
-| PAY-3 | Split options: per seat (default), split equally by riders, or distance-based | P1 |
-| PAY-4 | In-app payments (card, UPI, wallet) via payment provider (e.g., Stripe / Razorpay); payment held until trip completes | P1 |
-| PAY-5 | Driver payouts to bank account; payout history | P1 |
-| PAY-6 | Receipts and monthly statement (useful for employer commuter benefits) | P1 |
-| PAY-7 | Refunds per cancellation policy | P1 |
-| PAY-8 | Toll & parking add-ons split among riders | P2 |
+| OUT-1 | Create a one-off outing: name (e.g. "Riya's birthday party"), place, date, time to go and return, kids invited | P0 |
+| OUT-2 | Invite friend families or a whole group; each parent RSVPs for their kids and says whether they can drive and how many seats | P0 |
+| OUT-3 | Seat planner: app suggests which kid goes in which car (seat count, car/booster seats, nearest home); parents can drag to change | P0 |
+| OUT-4 | Separate drivers for the way there and the way back | P0 |
+| OUT-5 | Same check-in and notifications as regular trips (picked up, arrived, dropped home) | P0 |
+| OUT-6 | Outing chat for the parents involved; auto-archived after the event | P0 |
+| OUT-7 | Outings count towards the fairness counter only if the group chooses so | P1 |
 
-### 4.9 Ratings & Reviews
+### 4.9 Adult Rides with Friends
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| RATE-1 | After each trip, driver and riders rate each other 1–5 stars + optional comment and tags (punctual, safe driving, friendly) | P0 |
-| RATE-2 | Reviews are visible only after both sides submit, or after 7 days | P1 |
-| RATE-3 | Recurring rides: prompt rating weekly, not after every trip | P0 |
+| ADR-1 | Offer a ride to friends: from, to, date/time, seats, one-off or recurring (e.g. office Mon–Fri) | P1 |
+| ADR-2 | Choose who sees it: all friends, a circle (e.g. "Office"), or chosen people | P1 |
+| ADR-3 | Friends request a seat; driver accepts; or friends post "Need a ride" for others to offer | P1 |
+| ADR-4 | Events for adults (wedding, concert, weekend trip): several cars, seat planner, group chat | P1 |
+| ADR-5 | Optional cost split per ride (fuel, tolls, parking): record who owes what, mark as settled (cash / UPI / bank) | P1 |
+| ADR-6 | Kids can be added to an adult ride by their own parent (e.g. family weekend trip with friends) | P1 |
 
-### 4.10 Safety & Trust
+### 4.10 Trip Day
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| SAFE-1 | SOS button during an active trip: calls local emergency number and alerts emergency contacts with live location | P0 |
-| SAFE-2 | Share trip details (driver, car, plate, route, ETA) with a contact via link | P0 |
-| SAFE-3 | Report a user (categories: unsafe driving, harassment, no-show, fraud, other) → moderation queue | P0 |
-| SAFE-4 | Block users; blocked users never see each other's rides | P0 |
-| SAFE-5 | Women-only rides option, available only to verified women users | P1 |
-| SAFE-6 | ID & driving-license verification via a KYC provider | P1 |
-| SAFE-7 | Automatic suspension after repeated reports pending review | P1 |
-| SAFE-8 | Community guidelines & terms accepted at signup | P0 |
+| TRIP-1 | **Today** view: every trip today for the family's kids, with the driver, car, time and the kids in the car | P0 |
+| TRIP-2 | Morning reminder to the driver with the list of kids, addresses and seat needs | P0 |
+| TRIP-3 | Driver taps **Start trip**, then checks off each child at **pickup** (✓ in car) and **drop-off** (✓ at school/class/home) | P0 |
+| TRIP-4 | Each parent gets a notification when their child is picked up and dropped off, with the time | P0 |
+| TRIP-5 | Alert to the parent if a child isn't checked in within 10 minutes of the planned pickup | P0 |
+| TRIP-6 | "Running late" one-tap alert with new ETA to all parents in the trip | P1 |
+| TRIP-7 | Live location of the car, visible only to the parents of the kids in the car, only during the trip | P1 |
+| TRIP-8 | Hand-off to Google Maps / Apple Maps / Waze for navigation | P0 |
+| TRIP-9 | Quick access to each child's medical notes and emergency contacts during the trip | P0 |
 
-### 4.11 Groups (Company / School / Community)
+### 4.11 Communication & Notifications
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| GRP-1 | Create a private group; join by invite link, code, or verified email domain (e.g., @company.com) | P1 |
-| GRP-2 | Rides can be posted to a group only (visible to members) | P1 |
-| GRP-3 | Group admins: approve/remove members, pin announcements | P1 |
-| GRP-4 | Rotation scheduler: members of a group take turns driving on a schedule; app shows "whose turn" and balances fairness | P2 |
-| GRP-5 | Group dashboard: active members, trips, CO₂ saved | P2 |
+| COM-1 | Group chat for parents (adults only) | P0 |
+| COM-2 | Call another parent from the trip screen | P0 |
+| COM-3 | Push notifications: turn reminders, confirmation needed, swap requests, pickup/drop-off check-ins, absences, schedule changes, friend requests, outing invites and RSVPs, ride requests | P0 |
+| COM-4 | SMS fallback for check-in and urgent alerts | P1 |
+| COM-5 | Notification settings per group and per type, with quiet hours | P0 |
 
-### 4.12 History, Stats & Engagement
+### 4.12 Calendar
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| HIST-1 | My Rides: upcoming, past, cancelled (as driver and rider) | P0 |
-| HIST-2 | Personal stats: trips, km shared, money saved, CO₂ saved | P2 |
-| HIST-3 | Referral program / invite friends | P2 |
+| CAL-1 | Calendar view of the family's driving turns, kids' trips, outings and adult rides (week / month) | P0 |
+| CAL-2 | Sync "my driving turns" to Google / Apple / Outlook calendar, updated after swaps | P0 |
 
-### 4.13 Admin / Back-office (web)
+### 4.13 Safety & Privacy
 | ID | Requirement | Priority |
 |----|-------------|----------|
-| ADM-1 | Search users, rides, bookings; view details | P0 |
-| ADM-2 | Moderation queue for reports; actions: warn, suspend, ban, refund | P0 |
-| ADM-3 | Verify ID/license documents (manual fallback) | P1 |
-| ADM-4 | Configure pricing caps, cancellation policy, search radius | P1 |
-| ADM-5 | Analytics: DAU/MAU, rides posted, booking rate, fill rate, cancellations | P2 |
-| ADM-6 | Audit log of admin actions | P0 |
+| SAFE-1 | Invite-only groups, outings and rides; you can only see people you are friends with or share a group with; no public search for groups, families or rides | P0 |
+| SAFE-2 | Only adults in the same group see a child's details; medical notes only for that trip's driver | P0 |
+| SAFE-3 | Driver checklist accepted when joining a group: valid licence, insured car, no phone use while driving, proper car seats | P0 |
+| SAFE-4 | Each family can see and approve who may drive their child (including approved drivers); a family can opt their child out of a specific driver | P1 |
+| SAFE-5 | Emergency button on the trip screen: call emergency services, and alert all parents in the trip with location | P0 |
+| SAFE-6 | Audit log of check-ins, assignments and changes, kept for 90 days | P0 |
+| SAFE-7 | Report a concern to the group admin privately | P1 |
+
+### 4.14 Optional: Cost Sharing
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| COST-1 | Cost split for adult rides (see ADR-5) | P1 |
+| COST-2 | Optional fuel/cost tracker for kids' groups where driving is uneven (e.g. one family has no car) | P2 |
 
 ---
 
 ## 5. Key User Flows
 
-1. **Driver offers a commute:** Onboard → add vehicle → "Offer ride" → Home → Work, 8:30 AM, Mon–Fri, 3 seats → accept suggested price → publish → (optional) create return ride.
-2. **Rider books:** Search Home → Work, tomorrow 8–9 AM → results within 2 km → open ride → choose pickup point → request seat (recurring Mon–Fri) → driver approves → chat opens.
-3. **Trip day:** Reminders → driver starts trip → rider confirms pickup → end trip → amount added to balance / charged → rating prompt.
-4. **Cancellation:** Driver cancels a single occurrence → all riders notified with reason → rider sees alternative ride suggestions → refund if prepaid.
-5. **Safety incident:** Rider taps SOS → emergency call option + contacts get SMS with live link → incident logged for admin review.
+1. **Start a carpool:** Parent signs up → adds family, kids, car → creates group "Greenwood School, Grade 3" → sets trips (Mon–Fri, 7:45 AM to school, 3:15 PM home) → shares invite link in the parents' WhatsApp.
+2. **Join:** Another parent opens the link → signs up → adds kids and car → requests to join → admin approves → sets "can't drive" days.
+3. **Rotation:** Once 3 or more families have joined, admin taps "Generate rotation" → reviews 4 weeks of turns → publishes; everyone's calendar updates.
+4. **Evening before:** Tomorrow's driver gets "You're driving Mia, Aarav and Leo to school at 7:45. Confirm?" → taps Confirm.
+5. **Trip:** Driver taps Start → picks up each child and checks them in → parents get "Mia was picked up at 7:48 by Priya (white Honda City)" → drop-off at school → "Mia was dropped at Greenwood School at 8:12".
+6. **Can't drive:** Driver taps "Need cover" → others notified → a parent taps "I'll cover" → rotation and fairness counter update → everyone notified.
+7. **Sick child:** Parent marks Leo absent for today → driver notified and Leo removed from today's pickup list.
+8. **Birthday party:** Parent creates outing "Riya's party, Sat 4–7 PM" → invites 5 friend families → each RSVPs and two parents offer seats → seat planner fills the cars → check-ins on the day notify every parent.
+9. **Adult ride:** Parent offers "Office, Mon–Fri 9 AM, 2 seats" to the "Neighbours" circle → a friend requests a seat → accepted → weekly cost split recorded.
 
 ---
 
 ## 6. Business Rules
 
-| Rule | Default (configurable) |
+| Rule | Default (configurable per group) |
 |------|------------------------|
-| Max price per seat | Fuel cost per km × distance ÷ (seats + 1), × 1.2 cap — prevents profiteering |
-| Booking request expiry | 12 h or 1 h before departure, whichever is sooner |
-| Rider free cancellation | Up to 2 h before departure; after that 50% charge (when in-app payment enabled) |
-| Driver cancellation | Full refund to riders; repeated late cancellations lower driver visibility |
-| No-show | Rider no-show → full charge; driver no-show → full refund + flag |
-| Min account age to drive | Phone-verified; ID + license verification required in v1.1 |
-| Ride posting window | Up to 30 days ahead (recurring rides generate occurrences 4 weeks ahead) |
+| Max families per group | 8 (outings and adult events: up to 30 people) |
+| Rotation horizon | 4 weeks ahead, extended automatically each week |
+| Driver confirmation deadline | 8 PM the evening before |
+| Swap escalation | Reminder after 2 h; urgent alert to all when < 12 h before the trip |
+| Missed check-in alert | 10 min after planned pickup |
+| Fairness weighting | 1 trip = 1 point (option: weight by number of kids or distance) |
+| Seat check | Assign a driver only if seats ≥ kids on the trip and car/booster seats match |
+| Who can see a ride or outing | Only invited friends / group members |
+| Driving a child | Only parents in the group or approved drivers the child's parent has approved |
+| Data retention | Trip and check-in logs 90 days; full deletion on request |
 
 ---
 
@@ -214,80 +250,87 @@ Priority tags below: **P0** = MVP must-have, **P1** = v1.1, **P2** = v2.
 
 | Category | Requirement |
 |----------|-------------|
-| **Platforms** | iOS 16+ and Android 10+ (single codebase); admin as web app |
-| **Performance** | Search results < 2 s (p95); app cold start < 3 s; API p95 < 300 ms |
-| **Scalability** | Design for 100k users / 10k daily trips without re-architecture |
-| **Availability** | 99.5% uptime MVP; 99.9% target v2 |
-| **Consistency** | Seat booking must be transactional (no overbooking) |
-| **Security** | TLS everywhere; passwords never stored (OTP/OAuth); JWT with short-lived access + refresh tokens; PII encrypted at rest; rate limiting on OTP and search; OWASP Top 10 & MASVS reviewed |
-| **Privacy** | Exact home address never shown publicly — show approximate pickup area until booking confirmed; live location only during active trip; GDPR / India DPDP Act compliant: consent, data export, deletion |
-| **Payments** | PCI-DSS handled by payment provider; app never stores card numbers |
-| **Accessibility** | WCAG 2.1 AA: screen-reader labels, dynamic text size, color contrast |
-| **Localization** | Multi-language and multi-currency ready from day 1 (strings externalized) |
-| **Offline** | Upcoming ride details & driver contact viewable offline |
-| **Observability** | Crash reporting, structured logs, metrics, alerting on error rate |
-| **Battery** | Location only used in foreground except during an active trip |
+| **Platforms** | iOS 16+ and Android 10+ (one codebase) |
+| **Reliability** | Check-in and notifications are the most important path: notification sent < 10 s after check-in; 99.9% notification delivery with SMS fallback |
+| **Performance** | Today view loads < 1.5 s; works on slow mobile data |
+| **Offline** | Today's trip, kids list, medical notes and emergency contacts available offline; check-ins queue and sync when back online |
+| **Child privacy** | Comply with COPPA (US), GDPR-K (EU/UK) and India DPDP Act rules on children's data: verifiable parental consent, minimum data, no ads, no tracking/analytics on child data, no data sold or shared |
+| **Security** | Encryption in transit and at rest; medical notes encrypted separately; role-based access (family, group, driver-of-the-day); short-lived sessions; rate-limited OTP |
+| **Location** | Location only used during an active trip; never stored beyond 24 h |
+| **Accessibility** | WCAG 2.1 AA; large tap targets for use in a hurry |
+| **Localization** | Multi-language ready; 12/24 h time; local date formats |
+| **Observability** | Crash reporting and alerts on failed notifications (without logging children's personal data) |
 
 ---
 
 ## 8. Data Model (high level)
 
 ```
-User ─┬─< Vehicle
-      ├─< Ride (as driver) ─┬─< RideOccurrence ─< Booking >─ User (rider)
-      │                     └─< Stopover
-      ├─< Booking (as rider)
-      ├─< Rating (given / received)
-      ├─< EmergencyContact
-      ├─< GroupMember >─ Group
-      └─< Report
+Family ─┬─< Adult (parent, co-parent, approved driver)
+        ├─< Child ─< EmergencyContact
+        ├─< Car
+        └─< Availability (can't-drive slots)
 
-Booking ─< Payment / LedgerEntry
-Ride ─< ChatThread ─< Message
+Adult ─< Friendship >─ Adult   (status: pending / accepted / blocked)
+Adult ─< Circle ─< CircleMember
+
+Outing / AdultRide ─┬─< Invite (family or adult, RSVP)
+                    ├─< CarAssignment (car, driver, direction) ─< Seat (child or adult)
+                    └─< CostEntry (adult rides only)
+
+Group ─┬─< GroupMembership >─ Family
+       ├─< TripTemplate (days, time, direction)  ─< TripInstance
+       ├─< SkipDate
+       └─< ChatMessage
+
+TripInstance ─┬─ driver: Adult, car: Car
+              ├─< TripRider >─ Child   (status: scheduled / absent / picked_up / dropped_off)
+              └─< SwapRequest
+Group ─< AuditLog
 ```
 
 | Entity | Key fields |
 |--------|-----------|
-| User | id, name, phone, email, photo, gender?, verification flags, rating_avg, status |
-| Vehicle | id, owner_id, make, model, color, plate, seats |
-| Ride | id, driver_id, vehicle_id, origin, destination, route_polyline, recurrence_rule, price_per_seat, seats, booking_mode, visibility, group_id? |
-| RideOccurrence | id, ride_id, date, departure_time, seats_left, status |
-| Booking | id, occurrence_id, rider_id, pickup, dropoff, seats, status, price |
-| LedgerEntry | id, booking_id, payer_id, payee_id, amount, currency, status |
-| Rating | id, trip_id, from_user, to_user, stars, tags, comment |
-| Report | id, reporter_id, reported_id, ride_id?, category, details, status |
-| Group | id, name, type, email_domain?, admins |
+| Family | id, name, home_address (encrypted), created_at |
+| Adult | id, family_id, role, name, phone, photo |
+| Child | id, family_id, first_name, photo, grade, seat_need, medical_notes (encrypted) |
+| Car | id, family_id, make, model, colour, plate, seats, car_seats, boosters |
+| Group | id, name, type, place, admin_ids, rotation_mode, settings |
+| TripTemplate | id, group_id, direction, weekdays, time |
+| TripInstance | id, template_id, date, time, driver_id, car_id, status, confirmed_at |
+| TripRider | trip_id, child_id, status, picked_up_at, dropped_off_at |
+| SwapRequest | id, trip_id, from_family, to_family, type (cover/swap), status |
+| FairnessLedger | group_id, family_id, trips_driven, trips_received |
+| Friendship | adult_a, adult_b, status, created_at |
+| Outing | id, organiser_id, name, place, date, go_time, return_time, group_id? |
+| AdultRide | id, driver_id, from, to, datetime, recurrence, seats, visibility (all / circle / people) |
+| CostEntry | ride_id, payer_id, payee_id, amount, settled |
 
 ---
 
 ## 9. Suggested Technical Architecture
 
-| Layer | Recommendation | Why |
-|-------|---------------|-----|
-| Mobile | **React Native (Expo)** or **Flutter** | One codebase for iOS + Android |
-| Backend | **Node.js (NestJS)** or **Python (FastAPI)** REST API + WebSocket for chat | Common, well supported |
-| Database | **PostgreSQL + PostGIS** | Geospatial route matching ("rides passing near me") |
-| Cache / queue | Redis (sessions, rate limits, job queue) | Reminders, request expiry, notifications |
-| Auth | Firebase Auth / Supabase Auth / Auth0 | Phone OTP + Google/Apple out of the box |
-| Maps | Google Maps Platform (Places, Directions) or Mapbox | Autocomplete, routes, ETAs |
-| Push | Firebase Cloud Messaging + APNs | |
-| Payments | Stripe (global) / Razorpay (India) | Escrow-like holds, payouts |
-| Hosting | AWS / GCP, or Supabase for fastest MVP | |
-| Admin | Next.js web app | |
+| Layer | Recommendation |
+|-------|---------------|
+| Mobile app | Flutter or React Native (Expo) |
+| Backend | Supabase (Postgres, Auth, Row-Level Security, Realtime) for the MVP; row-level security is a strong fit for "only my group sees my kids" |
+| Jobs | Scheduled functions for rotation generation, reminders, confirmation deadlines, missed-check-in alerts |
+| Notifications | Firebase Cloud Messaging + APNs; Twilio (or similar) for SMS fallback |
+| Maps | Google Maps (address autocomplete, navigation hand-off, live location in v1.1) |
+| Calendar | ICS feed per family for calendar sync |
 
-**Fastest MVP path:** Flutter or React Native + Supabase (Postgres + PostGIS + Auth + Realtime chat) + Google Maps + FCM.
+**Rotation algorithm (MVP):** for each upcoming trip, choose among the available families whose car fits the kids, the one with the lowest (trips driven − fair share), breaking ties by who drove longest ago. Recompute future weeks after any change.
 
 ---
 
-## 10. Analytics & KPIs
+## 10. Analytics & KPIs (no child data)
 
-- Activation: % new users who post or book a ride within 7 days
-- Liquidity: search → at least one result rate; seat fill rate per ride
-- Conversion: ride detail → booking request → confirmed
-- Retention: W1 / W4 retention; % users with recurring bookings
-- Reliability: cancellation rate (driver vs. rider), no-show rate
-- Trust: average rating, reports per 1,000 trips
-- Impact: km shared, CO₂ saved
+- Groups created, families per group, % groups with an active rotation
+- Friend connections per user; outings and adult rides created; seats filled
+- % trips confirmed by the deadline; swap requests and time to resolve
+- % trips with complete check-ins; missed-check-in alerts
+- Fairness spread per group
+- Weekly active families; retention over a school term
 
 ---
 
@@ -295,12 +338,12 @@ Ride ─< ChatThread ─< Message
 
 | Risk | Mitigation |
 |------|-----------|
-| Chicken-and-egg (no drivers → no riders) | Launch inside one company/campus/neighborhood first (groups); seed with known commuters |
-| Legal: drivers seen as commercial operators | Enforce cost-sharing price cap; clear terms; check local regulations |
-| Safety incidents | Verification, SOS, ratings, moderation, women-only option |
-| Insurance | Clarify in terms that drivers' personal insurance applies; explore partner coverage later |
-| Privacy leaks (home address) | Approximate locations until booking confirmed |
-| Map / SMS API costs | Cache routes; rate limit OTP; monitor spend |
+| Child-safety incident | Invite-only groups, driver checklist, check-ins, missed-check-in alerts, emergency button, approved-driver visibility |
+| Children's data privacy / legal | Collect minimum data, parental consent, encryption, COPPA/GDPR-K/DPDP review before launch |
+| Adult rides blur into a public ride service | Rides only visible to accepted friends; cost split only (no profit), no public listing |
+| Parents keep using WhatsApp | Make the invite flow WhatsApp-friendly; send useful notifications so the app is where the truth lives |
+| Notification failure → missed pickup | SMS fallback, missed-check-in alerts, offline trip info |
+| Liability / insurance | Terms clarify that parents arrange carpools among themselves; the app is a coordination tool; driver checklist |
 
 ---
 
@@ -308,20 +351,19 @@ Ride ─< ChatThread ─< Message
 
 | Phase | Duration | Output |
 |-------|----------|--------|
-| 0. Discovery | 1–2 wks | Confirm open questions, wireframes, tech choices |
-| 1. Design | 2 wks | UI designs for MVP flows, design system |
-| 2. MVP build | 8–10 wks | Section 4 P0 features, admin basics |
-| 3. Pilot | 4 wks | Closed beta with one group (20–100 users), fix & iterate |
-| 4. v1.1 | 6 wks | Payments, groups, verification |
-| 5. v2 | ongoing | Live tracking, rotation scheduler, analytics |
+| 0. Discovery | 1–2 wks | Interview 5–10 parents, confirm open questions, wireframes |
+| 1. Design | 2 wks | UI for MVP flows |
+| 2. MVP build | 8 wks | All P0 features |
+| 3. Pilot | 1 school term | 2–3 real groups at one school; iterate |
+| 4. v1.1 | 6 wks | Live location, approved drivers, holidays, absences |
 
 ---
 
-## 13. Open Questions (need your decision)
+## 13. Open Questions
 
-1. **Who is it for first?** Personal use with friends/coworkers, a specific company/school, or a public app for anyone?
-2. **Country/region?** Decides currency, payment provider (UPI/Razorpay vs. Stripe), legal rules, and maps provider.
-3. **Money handling in MVP:** just track who owes what (simpler), or real in-app payments?
-4. **Platform:** both iOS and Android from day one, or start with one (or a web app/PWA)?
-5. **School-run / kids use case** in scope? (Adds guardian accounts and stricter safety.)
-6. **Budget & team:** solo developer, or a team? Affects tech choice (e.g., Supabase for speed).
+1. **Country/region?** Decides privacy law (COPPA / GDPR-K / DPDP) and SMS provider.
+2. **Friends-of-friends**: should a friend's friend be able to see an outing you're both invited to? (Draft: only if invited by the organiser.)
+3. **Who should see live location**: all parents in the group, or only parents of the kids in that car? (Draft: only kids in the car.)
+4. **Older kids (12+)**: should they get a simple read-only app to see who's picking them up? (Draft: not in v1.)
+5. **Rotation weighting**: is "one trip = one turn" fair enough, or should longer routes / more kids count more?
+6. **Platform**: iOS and Android from day one?
