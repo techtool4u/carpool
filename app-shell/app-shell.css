@@ -1,0 +1,3 @@
+/* App-only styles, linked in by scripts/build-web.mjs. The .in-app class is set by app-shell.js inside the Android app only. */
+html.in-app body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html.in-app input,html.in-app textarea{-webkit-user-select:text;user-select:text}
