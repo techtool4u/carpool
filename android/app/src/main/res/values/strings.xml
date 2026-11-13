@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Carpool</string>
+    <string name="title_activity_main">Carpool</string>
+    <string name="package_name">com.techtool4u.carpool</string>
+    <string name="custom_url_scheme">com.techtool4u.carpool</string>
+</resources>
